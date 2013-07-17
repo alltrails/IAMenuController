@@ -12,6 +12,7 @@
 @interface IAMenuController ()
 
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, assign) BOOL panningEnabled;
 
 @end
 
@@ -202,10 +203,16 @@
         if (translation.x < minimumX)
             return;
         
+        self.panningEnabled = ([pan locationInView:self.contentView].y < 44);
+        
         [self.menuViewController viewWillAppear:YES];
     }
     else if (pan.state == UIGestureRecognizerStateChanged)
     {
+        if (!self.panningEnabled) {
+            return;
+        }
+        
         CGRect currentFrame = self.contentView.frame;
         CGFloat newX = currentFrame.origin.x + translation.x;
         
@@ -217,6 +224,8 @@
     }
     else if (pan.state == UIGestureRecognizerStateEnded)
     {
+        self.panningEnabled = NO;
+        
         if (CGRectGetMinX(self.contentView.frame) == 0.0f)
             return;
         

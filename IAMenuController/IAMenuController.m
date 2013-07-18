@@ -132,13 +132,14 @@
 - (void)addPanGestureRecognizer
 {
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    pan.cancelsTouchesInView = YES;
+    pan.cancelsTouchesInView = NO;
     [self.contentView addGestureRecognizer:pan];
 }
 
 - (void)addTapToDismissGestureRecognizer
 {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMenu)];
+    tap.cancelsTouchesInView = YES;
     [self.contentView addGestureRecognizer:tap];
 }
 
